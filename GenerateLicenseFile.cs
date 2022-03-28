@@ -1,15 +1,14 @@
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Extensions.Logging;
 
 namespace pluralsightfuncs
 {
     public static class GenerateLicenseFile
     {
         [FunctionName("GenerateLicenseFile")]
-        public static void Run([QueueTrigger("orders", Connection = "AzureWebJobsStorage")]Order order, 
+        public static void Run([QueueTrigger("orders", Connection = "AzureWebJobsStorage")] Order order,
             [Blob("licenses/{rand-guid}.lic")] TextWriter outputBlob,
             ILogger log)
         {
