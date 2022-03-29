@@ -1,18 +1,15 @@
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using SendGrid.Helpers.Mail;
+using System;
 
 namespace pluralsightfuncs
 {
     public class EmailLicenseFile
     {
         [FunctionName("EmailLicenseFile")]
-        public void Run([BlobTrigger("licenses/{orderId}.lic", 
-            Connection = "AzureWebJobsStorage")]string licenseFileContents, 
+        public void Run([BlobTrigger("licenses/{orderId}.lic",
+            Connection = "AzureWebJobsStorage")]string licenseFileContents,
             [SendGrid(ApiKey = "SendGridApiKey")] ICollector<SendGridMessage> sender,
             [Table("orders", "orders", "{orderId}")] Order order,
             string orderId, ILogger log)

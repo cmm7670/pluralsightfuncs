@@ -18,7 +18,7 @@ namespace pluralsightfuncs
                 {
                     Connection = "AzureWebJobsStorage",
                 });
-            
+
             outputBlob.WriteLine($"OrderId: {order.OrderId}");
             outputBlob.WriteLine($"Email: {order.Email}");
             outputBlob.WriteLine($"ProductId: {order.ProductId}");
