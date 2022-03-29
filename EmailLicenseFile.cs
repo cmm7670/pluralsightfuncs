@@ -18,7 +18,7 @@ namespace pluralsightfuncs
             var email = Regex.Match(licenseFileContents, @"^Email\:\ (.+)$", RegexOptions.Multiline).Groups[1].Value;
             log.LogInformation($"Got order from {email}\n License file Name:{name}");
             message = new SendGridMessage();
-            message.From = new EmailAddress(Environment.GetEnvironmentVariable("EMailSender"));
+            message.From = new EmailAddress(Environment.GetEnvironmentVariable("EmailSender"));
             message.AddTo(email);
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(licenseFileContents);
             var base64 = Convert.ToBase64String(plainTextBytes);
