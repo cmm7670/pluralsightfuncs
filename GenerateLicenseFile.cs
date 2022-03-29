@@ -2,16 +2,23 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace pluralsightfuncs
 {
     public static class GenerateLicenseFile
     {
         [FunctionName("GenerateLicenseFile")]
-        public static void Run([QueueTrigger("orders", Connection = "AzureWebJobsStorage")] Order order,
-            [Blob("licenses/{rand-guid}.lic")] TextWriter outputBlob,
+        public static async Task Run([QueueTrigger("orders", Connection = "AzureWebJobsStorage")] Order order,
+            IBinder binder,
             ILogger log)
         {
+            var outputBlob = await binder.BindAsync<TextWriter>(
+                new BlobAttribute($"licenses/{order.OrderId}.lic")
+                {
+                    Connection = "AzureWebJobsStorage",
+                });
+            
             outputBlob.WriteLine($"OrderId: {order.OrderId}");
             outputBlob.WriteLine($"Email: {order.Email}");
             outputBlob.WriteLine($"ProductId: {order.ProductId}");
